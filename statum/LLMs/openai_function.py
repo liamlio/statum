@@ -3,7 +3,7 @@ import json
 
 from pydantic import BaseModel
 from typing import Optional
-from LLM import LLM
+from statum.LLMs import LLM
 
 
 
