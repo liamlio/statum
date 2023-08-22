@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "statum"
-version = "0.1.0-dev"
+version = "0.1.1-dev"
 description = "Opionated Framework to build scalable LLM based applications through function chaining or state machines."
 authors = ["Liam Croteau <liamcroteau@gmail.com>"]
 license = "MIT"

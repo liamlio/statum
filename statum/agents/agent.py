@@ -17,6 +17,9 @@ def _forward_unimplemented(self, *input: Any) -> None:
     raise NotImplementedError(f"agent [{type(self).__name__}] is missing the required \"forward\" function")
     
 class Agent(BaseModel):
+    forward_hook: Optional[Callable[..., Any]] = None
+    backward_hook: Optional[Callable[..., Any]] = None
+    hook: Optional[Callable[..., Any]] = None
 
     def __init__(self, *args, **kwargs) -> None:
         """
