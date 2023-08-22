@@ -26,7 +26,6 @@ class Agent(BaseModel):
         self.forward_hook = kwargs.get('forward_hook')
         self.backward_hook = kwargs.get('backward_hook')
         self.hook = kwargs.get('hook')
-        self.history = []  # Initialize history object
 
     forward: Callable[..., Any] = _forward_unimplemented
 
@@ -67,17 +66,7 @@ class Agent(BaseModel):
     def __call__(self, *args, **kwargs):
         if self.forward_hook:
             self.forward_hook(*args, **kwargs)
-        action_name = self.forward(*args, **kwargs)
-        self.history.append(action_name)  # Update history with action name
+        result = self.forward(*args, **kwargs)
         if self.backward_hook:
-            result = self.backward_hook(action_name)
+            result = self.backward_hook(result)
         return result
-    
-    def monitor_agent(self, agent, action):
-        # The logic to monitor when an action is complete by a specific agent or action called in a state machine
-        # maybe this does go in state machine?
-        
-        pass
-
-
-
