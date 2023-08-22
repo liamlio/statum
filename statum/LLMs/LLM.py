@@ -26,8 +26,6 @@ class LLM(BaseModel):
         Initializes internal LLM state
         """
         super().__setattr__('_parameters', OrderedDict())
-        # Track LLM parameters, used for Agent retry logic
-        pass
 
     forward: Callable[..., Any] = _forward_unimplemented
 
@@ -40,6 +38,3 @@ class LLM(BaseModel):
     def __call__(self, *args, **kwargs):
         
         return self.forward(*args, **kwargs)
-
-
-## Need to add LLM name + LLM class tracking in __dict__ and/or _LLM OrderedDict
