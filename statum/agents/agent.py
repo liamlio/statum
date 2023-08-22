@@ -1,7 +1,6 @@
 from collections import OrderedDict
 from pydantic import BaseModel
 from typing import  Any, Callable, Optional
-from statum.actions import Action
 
 
 def _forward_unimplemented(self, *input: Any) -> None:
@@ -27,9 +26,9 @@ class Agent(BaseModel):
         Initializes internal agent state and sets up hooks.
         """
         super().__setattr__('_agents', OrderedDict())
-        self.forward_hook: Optional[Action] = kwargs.get('forward_hook')
-        self.backward_hook: Optional[Action]  = kwargs.get('backward_hook')
-        self.hook: Optional[Action]  = kwargs.get('hook')
+        self.forward_hook = kwargs.get('forward_hook')
+        self.backward_hook  = kwargs.get('backward_hook')
+        self.hook = kwargs.get('hook')
 
     forward: Callable[..., Any] = _forward_unimplemented
 
