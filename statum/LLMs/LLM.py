@@ -3,8 +3,6 @@ from collections import OrderedDict
 
 from typing import Any, Callable
 
-Parameter = BaseModel
-
 def _forward_unimplemented(self, *input: Any) -> None:
     r"""Defines the computation performed at every call.
 
