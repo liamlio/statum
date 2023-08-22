@@ -27,7 +27,7 @@ class Agent(BaseModel):
         """
         super().__setattr__('_agents', OrderedDict())
         self.forward_hook = kwargs.get('forward_hook')
-        self.backward_hook  = kwargs.get('backward_hook')
+        self.backward_hook = kwargs.get('backward_hook')
         self.hook = kwargs.get('hook')
 
     forward: Callable[..., Any] = _forward_unimplemented
