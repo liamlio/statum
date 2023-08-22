@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from pydantic import BaseModel
 from typing import  Any, Callable, Optional
+from statum.actions import Action
 
 
 def _forward_unimplemented(self, *input: Any) -> None:
@@ -17,15 +18,18 @@ def _forward_unimplemented(self, *input: Any) -> None:
     raise NotImplementedError(f"agent [{type(self).__name__}] is missing the required \"forward\" function")
     
 class Agent(BaseModel):
+    forward_hook: Optional[Callable[..., Any]] = None
+    backward_hook: Optional[Callable[..., Any]] = None
+    hook: Optional[Callable[..., Any]] = None
 
     def __init__(self, *args, **kwargs) -> None:
         """
         Initializes internal agent state and sets up hooks.
         """
         super().__setattr__('_agents', OrderedDict())
-        self.forward_hook = kwargs.get('forward_hook')
-        self.backward_hook = kwargs.get('backward_hook')
-        self.hook = kwargs.get('hook')
+        self.forward_hook: Optional[Action] = kwargs.get('forward_hook')
+        self.backward_hook: Optional[Action]  = kwargs.get('backward_hook')
+        self.hook: Optional[Action]  = kwargs.get('hook')
 
     forward: Callable[..., Any] = _forward_unimplemented
 
