@@ -1,0 +1,73 @@
+Only do forward_hook and backward_hook per action
+Can be set at the agent level and added recursively to all init actions in the agent
+
+Agent should have a named local caches
+One constant called events that is just an event bus for actions ran - by default event should only last 1 event sequence
+Other called history -> agent.history
+
+You can create named caches. These are in memory caches -> agent.cache.NAME
+
+Add retrievers which are special subsets of Action classes with some extra helpful properties?
+
+Agent should have functionality to add a depends_on node. aka agent.action/agent_name.depends_on(["event_name" in agent.events[-1], ["event_name" in agent.events]])
+agent.action/agent.add_cache("history" or agent.cache.NAME)
+
+Can init named caches at run time -> ex: user history 
+
+To add a compile agent to another agent, compile outside the init and add.
+
+then agent = agent.compile() -> Is this even needed? probably not
+
+agent("init action is run")
+
+Can also just have agent chains. So 2 ways of using agents. but could also set them up a sequence but run things async.
+
+
+Scraped:
+Add forward and backward_hooks to actions >DONE
+Add a way to recursively add all hooks to contained actions per agent in an agent >DONE
+add named caches to agent -> events + history -> add to each agent >IN PROGRESS
+Add a way to make these caches accessibile to actions?? -> different buffer class
+
+Done:
+Add a way to add subagents to agent >DONE?
+Validators - should these ever be set at the agent level? Maybe the agent set one is called on the agent output only. yes
+Work on improving history object - add metadata like token count? number of action ran, other stuff etc.
+Can use history metadata to create loops with end conditions
+history object -> OrderedDict class with extra functions for creating metadata like token count, # of action calls, etcs
+>> Usefull for creating pythonic for and with loops ex: with agent.history["token_count"] < 50000: do state machine stuff
+
+>>>how can you improve the metadata object? Set it at the LLM level and just have the other classes call methods
+??? Probably fine on first iteration..
+
+>>Add a context object that contains history object and other useful information as needed 
+Set at the agent level and added to actions when agent it initialized > Kinda? What other context is useful that an action
+or subagent needs?
+
+TODO:
+
+>> Let's just build an app to start and figure out all the missing pieces first. Time for Multi-Agent app for Next.js apps with RAG for library retrieval.
+
+Add metadata to subagents and therefore subactions
+
+> Should there just be set action types. Function action, prompt action, etc. Just fill in the blank with text + validators?
+>> Yes - but keep the base class so you can create any type of action if you wanted to.
+>>> Validators and try would make more sense in this case. So we can add a retry method to actions if validation fails - yes
+
+Add defaults for making agents into api endpoints
+> Default behaviour is each agent can be called as /{user_id}/agent_name as a post request
+
+Add retrievers? ^start with above. Then learn more about RAG and how a Retriever class could look Or re-remplement llama_index?
+future: Can make it so caches are not in memory and save to database using a cache class -> this the abstraction for retrievers?
+
+Maybes:
+
+Re-add backward_hook and forward_hook but only on the LLM - maybe
+
+side thoughts:
+Add a method to actions that can't be changed which intakes an agent and creates a relationship to
+- the agents caches. That way when an action is run it updates the caches without it being explicitly set in the action
+add the same classmethod to an agent - aka an agent should add to a cache when it's done. The agent cache should have a signature
+- for the cache name ex: {Agent:{action_name:complete}}
+
+
